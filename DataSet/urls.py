@@ -17,23 +17,11 @@ urls = {
         "url3" : "https://www.olfacoffee.com/product/bosch-tis30129rw/",
         "url4" : "https://www.olfacoffee.com/product/delonghi-ec-235/",
         "url5" : "https://www.olfacoffee.com/product/delonghi-ec7-espresso-machine/",
-    },
-    "moshtarak" : {
-        "url1" : [ 
-            "https://www.olfacoffee.com/product/%d8%a7%d8%b3%d9%be%d8%b1%d8%b3%d9%88-%d8%b3%d8%a7%d8%b2-%d9%85%d8%a8%d8%a7%d8%b4%db%8c-2034-ecm/"
-        ],
-        "url2" : [  
-            "https://www.olfacoffee.com/product/mebashi-ecm2010/"
-        ],
-        "url3" : [
-            "https://www.olfacoffee.com/product/sprso-mchin-me-ecm2013/"
-        ],
-        "url4" : [ 
-            "https://www.olfacoffee.com/product/philips-ep3246/"
-        ],
-        "url5" : [
-            "https://www.olfacoffee.com/product/delonghi-685/"
-        ]
+        "url6" :"https://www.olfacoffee.com/product/%d8%a7%d8%b3%d9%be%d8%b1%d8%b3%d9%88-%d8%b3%d8%a7%d8%b2-%d9%85%d8%a8%d8%a7%d8%b4%db%8c-2034-ecm/",
+        "url7" :"https://www.olfacoffee.com/product/mebashi-ecm2010/",
+        "url8" :"https://www.olfacoffee.com/product/philips-ep3246/",
+        "url9" :"https://www.olfacoffee.com/product/sprso-mchin-me-ecm2013/",
+        "url510": "https://www.olfacoffee.com/product/delonghi-685/"
     },
     "amazon" : {
         "url1" : "https://www.amazon.com/Breville-BES840XL-Infuser-Espresso-Machine/dp/B0089SSOR6/ref=sr_1_24?crid=3PGDS82IRP7ON&dib=eyJ2IjoiMSJ9.-kzrHI0becQBDvbaGQoPjc5KfeJOjc6Eqv2VlU1YegLGfI7wWCHawuB9yUiH5aj6z2_hImk4bhTBgCUe7XLGbtEbEPL9id28V1Ef1cjqMwtbq88tq3McXNJqkdPiua2wNUjuF5qwvo8eM4DYN43Zh0awsIPpk9PjSRdxKBHhjhDkoA2z7gKhQsihIktjx1c3JXrCQN1HwML7Ojb1bmBrS5ovFhu4igINOAhASeLYpbeq7weryOWnYLmceU44jMlMRpYMnFYUF5C3-GtdOC_Qw1ECweUmmexcxwp0V5EPhc0.0DieYFUEm06MY9KVzpgbx2QP6MGVNGrcOuyPp_U42do&dib_tag=se&keywords=espresso+machine&qid=1721126361&sprefix=spress%2Caps%2C824&sr=8-24",
