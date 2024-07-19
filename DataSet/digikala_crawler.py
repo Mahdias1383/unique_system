@@ -1,3 +1,10 @@
+import threading
+from queue import Queue
+from selenium import webdriver
+from bs4 import BeautifulSoup
+import time
+import pandas as pd
+#------------
 urls = {
     "digikala" : {
         "url1" :"https://www.digikala.com/product/dkp-14664702/%D8%A7%D8%B3%D9%BE%D8%B1%D8%B3%D9%88-%D8%B3%D8%A7%D8%B2-%DA%AF%D9%88%D8%B3%D9%88%D9%86%DB%8C%DA%A9-%D9%85%D8%AF%D9%84-gem-873/",
@@ -43,3 +50,70 @@ urls = {
         "url5" :"https://www.amazon.com/Lavazza-Classy-Single-Espresso-Machine/dp/B07RVDJW56/ref=sr_1_22?crid=3PGDS82IRP7ON&dib=eyJ2IjoiMSJ9.-kzrHI0becQBDvbaGQoPjc5KfeJOjc6Eqv2VlU1YegLGfI7wWCHawuB9yUiH5aj6z2_hImk4bhTBgCUe7XLGbtEbEPL9id28V1Ef1cjqMwtbq88tq3McXNJqkdPiua2wNUjuF5qwvo8eM4DYN43Zh0awsIPpk9PjSRdxKBHhjhDkoA2z7gKhQsihIktjx1c3JXrCQN1HwML7Ojb1bmBrS5ovFhu4igINOAhASeLYpbeq7weryOWnYLmceU44jMlMRpYMnFYUF5C3-GtdOC_Qw1ECweUmmexcxwp0V5EPhc0.0DieYFUEm06MY9KVzpgbx2QP6MGVNGrcOuyPp_U42do&dib_tag=se&keywords=espresso+machine&qid=1721126361&sprefix=spress%2Caps%2C824&sr=8-22",
     }
 }
+#--------------
+# تنظیمات صف و لیست
+queue_digikala = Queue(100)
+list_digikala = []
+
+# اضافه کردن URLها به صف
+menu_urls ={
+    "digikala": urls["digikala"],
+    "olfa": urls["olfa"],
+    "moshtarak": urls["moshtarak"],
+    "amazon": urls["amazon"]
+}
+
+for k, v in menu_urls["digikala"].items():
+    print(v)
+    queue_digikala.put(v)
+
+def scrape_digikala_product_details(queue, result_list):
+    while not queue.empty():
+        url = queue.get()
+        driver = webdriver.Chrome()
+        driver.get(url)
+        time.sleep(5)
+        page_source = driver.page_source
+
+        # استفاده از BeautifulSoup برای تجزیه HTML
+        soup = BeautifulSoup(page_source, 'html.parser')
+
+        # پیدا کردن عنوان محصول
+        title_element = soup.find("h1", class_="text-h4 text-neutral-900 mb-2 pointer-events-none")
+        title = title_element.text.strip() if title_element else "عنوان محصول یافت نشد"
+
+        # پیدا کردن قیمت محصول
+        price_element = soup.find("span", class_="text-h4 ml-1 text-neutral-800")
+        price = price_element.text.strip() if price_element else "قیمت یافت نشد"
+
+        # اضافه کردن نتیجه به لیست
+        result_list.append({"name_product": title, "price_product": price})
+
+        driver.quit()
+        queue.task_done()
+
+# ایجاد و اجرای دو نخ
+threads = []
+for _ in range(2):
+    t = threading.Thread(target=scrape_digikala_product_details, args=(queue_digikala, list_digikala))
+    t.start()
+    threads.append(t)
+
+# منتظر ماندن تا تمامی نخ‌ها به پایان برسند
+for t in threads:
+    t.join()
+
+print(list_digikala)
+
+
+
+# تبدیل لیست به DataFrame
+df_digikala = pd.DataFrame(list_digikala, columns=["name_product", "price_product"])
+# چاپ DataFrame
+
+
+df_digikala.to_csv('df_digikala.csv', index=False)
+print(df_digikala)
+
+
+
