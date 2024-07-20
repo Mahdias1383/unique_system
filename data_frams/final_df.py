@@ -5,6 +5,7 @@ df_combined = pd.read_csv('df_combined.csv', encoding='utf-8')
 
 #اضافه کردن ستون 
 df_combined["subscription"] = df_combined.duplicated(subset=["name_product"])
+
 #print(df_combined)
 
 #تغییر سلول یک ستون براساس پیداکردن مقدار یک سلول از ستون همان سطر
