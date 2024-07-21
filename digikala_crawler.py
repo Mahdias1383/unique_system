@@ -4,23 +4,10 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 import pandas as pd
-#import urls_dict
-#import menu_urls
-#import digikala_list
-#import crawler_queue
+from menu_urls import menu_urls
+from lists import list_digikala
+from create_crawler_queue import crawler_queue
 #----------------------
-
-
-# تنظیمات صف و لیست
-#queue_digikala = Queue(100)
-
-
-
-
-
-# for k, v in menu_urls["digikala"].items():
-#     print(v)
-#     queue_digikala.put(v)
 
 def scrape_digikala_product_details(queue, result_list):
     while not queue.empty():
@@ -40,12 +27,20 @@ def scrape_digikala_product_details(queue, result_list):
         # پیدا کردن قیمت محصول
         price_element = soup.find("span", class_="text-h4 ml-1 text-neutral-800")
         price = price_element.text.strip() if price_element else "قیمت یافت نشد"
-
+        
+        # index = price.find(' ')
+        # if index != -1:
+        #    result = price[:index]
+        # else:
+        #    result = price 
+        price = price.replace(",", "")
         # اضافه کردن نتیجه به لیست
         result_list.append({"name_product": title, "price_product": price})
 
         driver.quit()
         queue.task_done()
+        
+        
 
 
 

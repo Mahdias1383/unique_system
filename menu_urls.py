@@ -1,7 +1,6 @@
-#import urlsdict
+from urls import urls
 menu_urls ={
     "digikala": urls["digikala"],
     "olfa": urls["olfa"],
-    "moshtarak": urls["moshtarak"],
     "amazon": urls["amazon"]
 }

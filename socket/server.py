@@ -1,1 +1,0 @@
-from crawler.digikala_crawler import scrape_digikala_product_details

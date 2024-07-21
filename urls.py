@@ -1,13 +1,3 @@
-import threading
-from queue import Queue
-from selenium import webdriver
-from bs4 import BeautifulSoup
-import time
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup
-import requests
-
 urls = {
     "digikala" : {
         "url1" :"https://www.digikala.com/product/dkp-14664702/%D8%A7%D8%B3%D9%BE%D8%B1%D8%B3%D9%88-%D8%B3%D8%A7%D8%B2-%DA%AF%D9%88%D8%B3%D9%88%D9%86%DB%8C%DA%A9-%D9%85%D8%AF%D9%84-gem-873/",
@@ -41,58 +31,3 @@ urls = {
         "url5" :"https://www.amazon.com/Lavazza-Classy-Single-Espresso-Machine/dp/B07RVDJW56/ref=sr_1_22?crid=3PGDS82IRP7ON&dib=eyJ2IjoiMSJ9.-kzrHI0becQBDvbaGQoPjc5KfeJOjc6Eqv2VlU1YegLGfI7wWCHawuB9yUiH5aj6z2_hImk4bhTBgCUe7XLGbtEbEPL9id28V1Ef1cjqMwtbq88tq3McXNJqkdPiua2wNUjuF5qwvo8eM4DYN43Zh0awsIPpk9PjSRdxKBHhjhDkoA2z7gKhQsihIktjx1c3JXrCQN1HwML7Ojb1bmBrS5ovFhu4igINOAhASeLYpbeq7weryOWnYLmceU44jMlMRpYMnFYUF5C3-GtdOC_Qw1ECweUmmexcxwp0V5EPhc0.0DieYFUEm06MY9KVzpgbx2QP6MGVNGrcOuyPp_U42do&dib_tag=se&keywords=espresso+machine&qid=1721126361&sprefix=spress%2Caps%2C824&sr=8-22",
     }
 }
-queue_amazon = Queue(100)
-list_amazon = []
-
-menu_urls ={
-    "digikala": urls["digikala"],
-    "olfa": urls["olfa"],
-    "amazon": urls["amazon"]
-}
-
-for k, v in menu_urls["amazon"].items():
-    print(v)
-    queue_amazon.put(v)
-
-def scrape_amazon_product_details(queue, result_list):
-    while not queue.empty():
-        url = queue.get()
-        HEADERS = ({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36','Accept-Language': 'en-US, en;q=0.5'})
-        webpage = requests.get(url, headers=HEADERS)
-        soup = BeautifulSoup(webpage.content, "html.parser")
-        price = soup.find("p", class_="a-spacing-none a-text-left a-size-mini twisterSwatchPrice")
-        if price:
-           price1 = price.text.strip()
-        else:
-            price = soup.find("span", class_="a-spacing-none a-text-left a-size-mini twisterSwatchPrice")
-           
-        
-        title = soup.find("span",{"id":"productTitle","class":"a-size-large product-title-word-break"})
-        title1 = title.text.strip()
-        
-        index = title1.find(',')
-        if index != -1:
-           result = title1[:index]
-        else:
-           result = title1  # اگر | پیدا نشد، کل متن را برگرداند
-        #print(result)
-        # اضافه کردن نتیجه به لیست
-        result_list.append({"name_product": result, "price_product": price1})
-        queue.task_done()
-
-# ایجاد و اجرای دو نخ
-threads = []
-for _ in range(2):
-    t = threading.Thread(target=scrape_amazon_product_details, args=(queue_amazon, list_amazon))
-    t.start()
-    threads.append(t)
-
-# منتظر ماندن تا تمامی نخ‌ها به پایان برسند
-for t in threads:
-    t.join()
-print(list_amazon)
-# تبدیل لیست به DataFrame
-df_list_amazon = pd.DataFrame(list_amazon, columns=["name_product", "price_product"])
-# چاپ DataFrame
-df_list_amazon.to_csv('df_list_amazon.csv', index=False)
-print(df_list_amazon)
