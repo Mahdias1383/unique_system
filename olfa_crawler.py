@@ -29,7 +29,11 @@ def scrape_olfa_product_details(queue, result_list):
         price_element = soup.find("p", class_="price")
         price = price_element.text.strip() if price_element else "قیمت یافت نشد"
         price1 = price.replace("تومان", "")
+        price1 = price1.split('–')[0].strip().replace(',', '')
 
+        # Convert to integer
+        price1 = float(price1)
+        
         result_list.append({"name_product": result, "price_product": price1})
 
         driver.quit()

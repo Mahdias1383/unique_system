@@ -64,7 +64,7 @@ queue_amazon = crawler_queue("amazon")
 crawler_threads(scrape_amazon_product_details,queue_amazon,list_amazon)
 print(list_amazon)
 df_amazon = create_data_frames(list_amazon, "amazon.csv")
-time.sleep(60)
+time.sleep(50)
 
 #digikala 
 queue_digikala = crawler_queue("digikala")
@@ -80,9 +80,9 @@ print(list_olfa)
 df_olfa = create_data_frames(list_olfa, "olfa.csv")
 time.sleep(5)
 
-df_amazon = pd.read_csv('digikala.csv', encoding='utf-8')
-df_digikala = pd.read_csv('olfa.csv', encoding='utf-8')
-df_olfa = pd.read_csv('amazon.csv', encoding='utf-8')
+df_amazon = pd.read_csv('amazon.csv', encoding='utf-8')
+df_digikala = pd.read_csv('digikala.csv', encoding='utf-8')
+df_olfa = pd.read_csv('olfa.csv', encoding='utf-8')
 df_combined = combine_data_frames(df_amazon,df_digikala,df_olfa)
   
 create_final_dataset()

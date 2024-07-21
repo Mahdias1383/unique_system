@@ -14,7 +14,7 @@ def scrape_digikala_product_details(queue, result_list):
         url = queue.get()
         driver = webdriver.Chrome()
         driver.get(url)
-        time.sleep(5)
+        time.sleep(10)
         page_source = driver.page_source
 
         # استفاده از BeautifulSoup برای تجزیه HTML
@@ -34,6 +34,7 @@ def scrape_digikala_product_details(queue, result_list):
         # else:
         #    result = price 
         price = price.replace(",", "")
+        price =float(price)
         # اضافه کردن نتیجه به لیست
         result_list.append({"name_product": title, "price_product": price})
 
