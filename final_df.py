@@ -47,8 +47,9 @@ def create_final_dataset():
     df_combined['trasport_price'] =  [40000 for _ in range(25)]    
     df_combined['marketing_price'] =  [3000000 for _ in range(25)]    
     df_combined['sales_profit'] =  [30 for _ in range(25)] 
+    
     df_combined['our_price'] = df_combined[['shopping_price', 'trasport_price', 'marketing_price', 'sales_profit']].sum(axis=1)
-    df_combined['base_price'] = df_combined[['shopping_price', 'trasport_price', 'marketing_price']].sum(axis=1) 
+    df_combined['base_price'] = df_combined[['shopping_price', 'trasport_price', 'marketing_price']].sum(axis=1)
     
     #minimum price
     df_combined['minimum_price'] = df_combined['others_price']
@@ -61,7 +62,7 @@ def create_final_dataset():
 
     # ditect competitve_product
     df_combined['competitve_product'] = df_combined.apply(
-        lambda row: row['minimum_price'] <= row['our_price'] <= row['base_price'],
+        lambda row:float(row['minimum_price'] ) <= float(row['our_price']) <= float(row['base_price']),
     axis=1
     )
 
@@ -71,25 +72,18 @@ def create_final_dataset():
 )
 
     df_combined['final_profit'] = df_combined.apply(
-    lambda row: row['our_price'] + ((row['sales_profit'] / 100) * row['our_price'] ),
+    lambda row: float(row['our_price']) + ((float(row['sales_profit']) / 100) * float(row['our_price']) ),
     axis=1)
 
     df_combined['price_difference'] =   df_combined.apply(
-        lambda row:   abs (row['our_price'] - row['others_price'])  ,
+        lambda row:   abs (float(row['our_price']) - float(row['others_price']))  ,
          axis=1  )
     
     df_combined.to_csv('final_data.csv', index=False)
 
 
-
-create_final_dataset()
-
-
-
-
-
-
-def create_plot(df):
+def create_plot():
+    df = pd.read_csv('final_data.csv', encoding='utf-8')
     # Plot the columns A, B, and C
     plt.figure(figsize=(10, 6))
     plt.plot(df['final_profit'], label='final_profit')
@@ -102,10 +96,16 @@ def create_plot(df):
     plt.ylabel('Values')
     plt.legend()
 
-    # Show the plot
-    plt.show()
-
     
+    # Show the plot
+    # plt.show()
+    # Saving the figure.
+    plt.savefig("output.jpg")
+    
+    # Saving figure by changing parameter values
+    plt.savefig("output1", facecolor='y', bbox_inches="tight",
+                pad_inches=0.3, transparent=True)
+
 
 
 
