@@ -87,13 +87,13 @@ def create_plot():
     # Plot the columns A, B, and C
     plt.figure(figsize=(10, 6))
     plt.plot(df['final_profit'], label='final_profit')
-    plt.plot(df['our_price'], label='our_price')
+    plt.plot(df['final_profit'], label='our_price')
     plt.plot(df['price_difference'], label='price_difference')
 
     # Adding titles and labels
-    plt.title('Sample Plot of Columns A, B, and C')
-    plt.xlabel('Index')
-    plt.ylabel('Values')
+    plt.title('Sample Plot of Columns final_profit, final_profit, and price_difference')
+    plt.xlabel('Index(Row_Number)')
+    plt.ylabel('Values_in_Currency')
     plt.legend()
 
     
