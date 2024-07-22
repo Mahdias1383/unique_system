@@ -1,3 +1,4 @@
+#our products url's dictionary.
 urls = {
     "digikala" : {
         "url1" :"https://www.digikala.com/product/dkp-14664702/%D8%A7%D8%B3%D9%BE%D8%B1%D8%B3%D9%88-%D8%B3%D8%A7%D8%B2-%DA%AF%D9%88%D8%B3%D9%88%D9%86%DB%8C%DA%A9-%D9%85%D8%AF%D9%84-gem-873/",
