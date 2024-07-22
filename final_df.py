@@ -1,6 +1,7 @@
 import csv
 import pandas as pd
 import matplotlib.pyplot as plt
+from farsi_tools import standardize_persian_text
 
 list_shopping_price=[
     44860600,  
@@ -32,6 +33,11 @@ list_shopping_price=[
 def create_final_dataset():
     df_combined = pd.read_csv('df_combined.csv', encoding='utf-8')
     df_combined.rename(columns={'price_product': 'others_price'}, inplace=True)
+
+    #df_combined['name_product'] = df_combined.apply(
+    #lambda row: standardize_persian_text(row['name_product']),
+    #axis=1
+    #)
    
     #اضافه کردن ستون 
     df_combined["subscription"] = df_combined.duplicated(subset=["name_product"])
